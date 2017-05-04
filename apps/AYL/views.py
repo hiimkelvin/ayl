@@ -92,9 +92,6 @@ def like(request, content_id):
 def logout(request):
     request.session.clear()
     return redirect('/')
-        'all_comments': Comment.objects.filter(content_table=content_id)
-    }
-    return render(request, "AYL/content.html", context)
 
 def add_comments(request, content_id):
     content_num = int(content_id)
