@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^register$', views.register),
     url(r'^addcontentpage$', views.addcontentpage),
     url(r'^addcontent$', views.addcontent),
-    url(r'^content/(?P<content_id>\d+)?$', views.content)
+    url(r'^content$', views.content),
+    url(r'^content/(?P<content_id>\d+)?$', views.content),
+    url(r'^comments/(?P<content_id>\d+)?$', views.add_comments)
 
 ]
 
