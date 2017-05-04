@@ -7,7 +7,6 @@ from .forms import DocumentForm
 from django.contrib import messages
 
 def index(request):
-    request.session.clear()
     context ={
         'all_content': Content.objects.all(),
     }
@@ -84,13 +83,12 @@ def like(request, content_id):
             'contentID': content_id,
             'userID': request.session['user_id']
         }
-        Like.objects.like(content)
+        Like.objects.like(context)
     except:
         messages.add_message(request, messages.ERROR, 'You must login to like this!')
     return redirect('/content/' + content_id)
 
 def logout(request):
-    request.session.clear()
     return redirect('/')
 
 def add_comments(request, content_id):

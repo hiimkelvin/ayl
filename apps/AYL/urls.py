@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^content/(?P<content_id>\d+)?$', views.content),
     url(r'^like/(?P<content_id>\d+)?$', views.like),
     url(r'^logout$', views.logout),
-    url(r'^comments/(?P<content_id>\d+)?$', views.add_comments)
+    url(r'^comments/(?P<content_id>\d+)?$', views.add_comments),
 
 ]
 
