@@ -7,7 +7,6 @@ from .forms import DocumentForm
 from django.contrib import messages
 
 def index(request):
-    request.session.clear()
     context ={
         'all_content': Content.objects.all(),
     }
@@ -90,7 +89,6 @@ def like(request, content_id):
     return redirect('/content/' + content_id)
 
 def logout(request):
-    request.session.clear()
     return redirect('/')
         'all_comments': Comment.objects.filter(content_table=content_id)
     }
