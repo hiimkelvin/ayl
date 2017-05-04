@@ -45,9 +45,9 @@ class UserManager(models.Manager):
     def log(self, data):
         errors = []
         try:
+            user = User.objects.get(email=data['email'])
+            if bcrypt.hashpw(data['password'].encode('utf-8'), user.pw.encode('utf-8')) != user.pw.encode('utf-8'):
         	user = User.objects.get(email=data['email'])
-        	if bcrypt.hashpw(data['password'].encode('utf-8'), user.pw.encode('utf-8')) != user.pw.encode('utf-8'):
-        		errors.append("Incorrect password.")
         except:
         	errors.append("Email not registered.")
         if len(errors) == 0:
@@ -125,9 +125,16 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = CommentManager()
 
+class LikeManager(models.Manager):
+    def like(self, data):
+        content = Content.objects.get(id=data['contentID'])
+        user = User.objects.get(id=data['userID'])
+        Like.objects.create(user_table=user, content_table=content, like=True)
+
 class Like(models.Model):
     user_table = models.ForeignKey(User, related_name='user_like')
     content_table = models.ForeignKey(Content, related_name='content_like')
     like = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = LikeManager()
