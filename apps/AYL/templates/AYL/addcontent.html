@@ -5,6 +5,10 @@
     <title>Add Content</title>
   </head>
   <body>
+    <a href="/">Back</a>
+    {% if 'user_id' in request.session %}
+    <a href="/logout">Logout</a></li>
+    {% endif %}
     <h2>Add your things below!</h2>
     {% for message in messages %}
       {{message}}
@@ -18,8 +22,6 @@
       <label for="description">Description:</label>
       <textarea name="description" rows="4" cols="40"></textarea>
       <button>Upload</button>
-
-
     </form>
   </body>
 </html>
