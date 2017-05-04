@@ -45,11 +45,9 @@ class UserManager(models.Manager):
     def log(self, data):
         errors = []
         try:
-            print "i'm in"
             user = User.objects.get(email=data['email'])
-            print "i'm out"
             if bcrypt.hashpw(data['password'].encode('utf-8'), user.pw.encode('utf-8')) != user.pw.encode('utf-8'):
-        		errors.append("Incorrect password.")
+        	user = User.objects.get(email=data['email'])
         except:
         	errors.append("Email not registered.")
         if len(errors) == 0:
@@ -101,12 +99,31 @@ class Content(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = ContentManager()
 
+class CommentManager(models.Manager):
+    def add_comment(self, data):
+        userID = data['userID']
+        contentID = data['contentID']
+        comments = data['comments']
+        errors = []
+
+        if data['comments'] == '':
+            errors.append('Comments may not be empty!')
+
+        if len(errors) == 0:
+            user = User.objects.get(id=userID)
+            content = Content.objects.get(id=contentID)
+            Comment.objects.create(user_table=user, content_table=content, comment=comments)
+            print 'added user'
+        else:
+            pass
+
 class Comment(models.Model):
     user_table = models.ForeignKey(User, related_name='user_comment')
     content_table = models.ForeignKey(Content, related_name='content_comment')
     comment = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = CommentManager()
 
 class LikeManager(models.Manager):
     def like(self, data):
