@@ -7,6 +7,10 @@
   <body>
     <a href="/">Back</a>
 
+    {% if 'user_id' in request.session %}
+    <a href="/logout">Logout</a></li>
+    {% endif %}
+
     <h2>Add your things below!</h2>
 
     {% for message in messages %}

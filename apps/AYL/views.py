@@ -84,7 +84,7 @@ def like(request, content_id):
             'contentID': content_id,
             'userID': request.session['user_id']
         }
-        Like.objects.like(content)
+        Like.objects.like(context)
     except:
         messages.add_message(request, messages.ERROR, 'You must login to like this!')
     return redirect('/content/' + content_id)
