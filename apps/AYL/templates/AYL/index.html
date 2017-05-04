@@ -11,16 +11,23 @@
 
     <div class="navbar">
       <ul>
+        {% if 'user_id' not in request.session %}
         <li><a href="/login_registration">Login/Register</a></li>
         <li><a href="/addcontentpage">Add Content</a></li>
-        <li><a href="">Logout</a></li>
+        {% endif %}
+        {% if 'user_id' in request.session %}
+        <li><a href="/logout">Logout</a></li>
+        {% endif %}
       </ul>
     </div>
-
+        {% if user_id in request.session %}
+        <li><a href="">Logout</a></li>
+        {% endif %}
+      </ul>
+    </div>
     {% for content in all_content %}
     <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
-    <p>{{ content.description }}</p>
+    <img height='300', width='300' src="{{ content.document.url }}">
     {% endfor %}
-
   </body>
 </html>

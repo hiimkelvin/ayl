@@ -45,9 +45,9 @@ class UserManager(models.Manager):
     def log(self, data):
         errors = []
         try:
+            user = User.objects.get(email=data['email'])
+            if bcrypt.hashpw(data['password'].encode('utf-8'), user.pw.encode('utf-8')) != user.pw.encode('utf-8'):
         	user = User.objects.get(email=data['email'])
-        	if bcrypt.hashpw(data['password'].encode('utf-8'), user.password.encode('utf-8')) != user.password.encode('utf-8'):
-        		errors.append("Incorrect password.")
         except:
         	errors.append("Email not registered.")
         if len(errors) == 0:
@@ -70,13 +70,52 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
+class ContentManager(models.Manager):
+    def addcontent(self, data):
+        title = data['title']
+        description = data['description']
+        document = data['document']
+        userID = data['userID']
+        errors = []
+
+        if title == '':
+            errors.append('Give your picture a title!')
+        if description == '':
+            errors.append('You need a description!')
+
+        if len(errors) == 0:
+            user = User.objects.get(id=userID)
+            newimage = Content(user_table=user, title=title, description=description, document=document)
+            newimage.save()
+        else:
+            pass
+
 class Content(models.Model):
     user_table = models.ForeignKey(User, related_name='user_content')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    document = models.FileField(upload_to='')
+    document = models.FileField(upload_to='documents/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = ContentManager()
+
+class CommentManager(models.Manager):
+    def add_comment(self, data):
+        userID = data['userID']
+        contentID = data['contentID']
+        comments = data['comments']
+        errors = []
+
+        if data['comments'] == '':
+            errors.append('Comments may not be empty!')
+
+        if len(errors) == 0:
+            user = User.objects.get(id=userID)
+            content = Content.objects.get(id=contentID)
+            Comment.objects.create(user_table=user, content_table=content, comment=comments)
+            print 'added user'
+        else:
+            pass
 
 class Comment(models.Model):
     user_table = models.ForeignKey(User, related_name='user_comment')
@@ -84,6 +123,13 @@ class Comment(models.Model):
     comment = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = CommentManager()
+
+class LikeManager(models.Manager):
+    def like(self, data):
+        content = Content.objects.get(id=data['contentID'])
+        user = User.objects.get(id=data['userID'])
+        Like.objects.create(user_table=user, content_table=content, like=True)
 
 class Like(models.Model):
     user_table = models.ForeignKey(User, related_name='user_like')
@@ -91,3 +137,4 @@ class Like(models.Model):
     like = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = LikeManager()

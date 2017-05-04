@@ -1,14 +1,38 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
 from .models import User, Content, Comment, Like
+from .forms import DocumentForm
+from django.contrib import messages
 
 def index(request):
+    request.session.clear()
     context ={
         'all_content': Content.objects.all(),
     }
     return render(request, 'AYL/index.html', context)
+
+def addcontentpage(request):
+    return render(request, "AYL/addcontent.html")
+
+def addcontent(request):
+    if 'user_id' not in request.session:
+        messages.add_message(request, messages.ERROR, 'You have to login to upload pictures!')
+        return redirect('/addcontentpage')
+    else:
+        try:
+            context = {
+            'title': request.POST['title'],
+            'description': request.POST['description'],
+            'document': request.FILES['document'],
+            'userID': request.session['user_id']
+            }
+            Content.objects.addcontent(context)
+            return redirect('/')
+        except:
+            messages.add_message(request, messages.ERROR, 'Upload a picture!')
+            return redirect('/addcontentpage')
 
 def loginpage(request):
     return render(request, 'AYL/login.html')
@@ -47,8 +71,38 @@ def login(request):
         request.session['user_name'] = results['logged_user'].name
         return redirect('/')
 
-def content(request, id):
-    context ={
-        'all_content': Content.objects.all(),
+def content(request, content_id):
+    context = {
+        'content': Content.objects.get(id=content_id),
+        'likes': Like.objects.filter(content_table=content_id).count(),
     }
-    return render(request, 'AYL/content.html', context)
+    return render(request, "AYL/content.html", context)
+
+def like(request, content_id):
+    try:
+        context = {
+            'contentID': content_id,
+            'userID': request.session['user_id']
+        }
+        Like.objects.like(content)
+    except:
+        messages.add_message(request, messages.ERROR, 'You must login to like this!')
+    return redirect('/content/' + content_id)
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
+        'all_comments': Comment.objects.filter(content_table=content_id)
+    }
+    return render(request, "AYL/content.html", context)
+
+def add_comments(request, content_id):
+    content_num = int(content_id)
+    context = {
+        'userID': request.session['user_id'],
+        'contentID': content_id,
+        'comments': request.POST['comments'],
+    }
+    results = Comment.objects.add_comment(context)
+    # print 'hit views'
+    return redirect('/content/' + content_id)
