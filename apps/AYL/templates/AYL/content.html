@@ -6,20 +6,25 @@
   </head>
   <body>
     <a href="/">Back</a>
+
     {% if 'user_id' in request.session %}
       <a href="/logout">Logout</a></li>
     {% endif %}
+
     {% for message in messages %}
       <p>{{ message }}</p>
     {% endfor %}
+
     <h2>{{ content.title }}</h2>
     <img height="500" width="500" src="{{ content.document.url }}">
     <p>{{ likes }} likes</p>
     <a href="/like/{{ content.id }}">👍</a>
     <p>{{ content.description }}</p>
+
     {% for comment in all_comments %}
       <p>{{ comment.comment}}</p>
     {% endfor %}
+
     <form action="/comments/{{ content.id }}" method="post">
       {% csrf_token %}
      <textarea name="comments" rows="8" cols="80"></textarea>
