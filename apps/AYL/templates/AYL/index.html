@@ -20,21 +20,14 @@
         {% endif %}
       </ul>
     </div>
-<<<<<<< HEAD
-    <h2>Content</h2>
-    <p>Description</p>
-
-        {% if user_id in request.session %}
-        <li><a href="">Logout</a></li>
-        {% endif %}
+    {% if user_id in request.session %}
+      <li><a href="">Logout</a></li>
+    {% endif %}
       </ul>
     </div>
-=======
->>>>>>> 452814eecf67930fa315de97d946d58780a867bb
-
     {% for content in all_content %}
-    <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
-    <img height='300', width='300' src="{{ content.document.url }}">
+      <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
+      <img height='300', width='300' src="{{ content.document.url }}">
     {% endfor %}
   </body>
 </html>
