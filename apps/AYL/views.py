@@ -7,9 +7,11 @@ from .forms import DocumentForm
 from django.contrib import messages
 
 def index(request):
-    # Content.objects.all().delete()
-    documents = Content.objects.all()
-    return render(request, 'AYL/index.html', { 'documents': documents })
+    request.session.clear()
+    context ={
+        'all_content': Content.objects.all(),
+    }
+    return render(request, 'AYL/index.html', context)
 
 def addcontentpage(request):
     return render(request, "AYL/addcontent.html")
@@ -31,11 +33,6 @@ def addcontent(request):
         except:
             messages.add_message(request, messages.ERROR, 'Upload a picture!')
             return redirect('/addcontentpage')
-def index(request):
-    context ={
-        'all_content': Content.objects.all(),
-    }
-    return render(request, 'AYL/index.html', context)
 
 def loginpage(request):
     return render(request, 'AYL/login.html')
@@ -76,6 +73,18 @@ def login(request):
 
 def content(request, content_id):
     context = {
-        'content': Content.objects.get(id=content_id)
+        'content': Content.objects.get(id=content_id),
+        'all_comments': Comment.objects.filter(content_table=content_id)
     }
     return render(request, "AYL/content.html", context)
+
+def add_comments(request, content_id):
+    content_num = int(content_id)
+    context = {
+        'userID': request.session['user_id'],
+        'contentID': content_id,
+        'comments': request.POST['comments'],
+    }
+    results = Comment.objects.add_comment(context)
+    # print 'hit views'
+    return redirect('/content/' + content_id)

@@ -7,13 +7,18 @@
   <body>
 
     <h2>{{ content.title }}</h2>
-    <p>{{ content.description }}</p>
     <img height="500" width="500" src="{{ content.document.url }}">
-
-    {% for content in all_content %}
-    <h2>{{ content.title }}</h2>
     <p>{{ content.description }}</p>
+    {% for comment in all_comments %}
+      <p>{{ comment.comment}}</p>
     {% endfor %}
+    <p>{{ content.id }}</p>
+    <form action="/comments/{{ content.id }}" method="post">
+      {% csrf_token %}
+     <textarea name="comments" rows="8" cols="80"></textarea>
+     <button>Comment</button>
+    </form>
+
 
   </body>
 </html>
