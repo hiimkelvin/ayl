@@ -13,16 +13,18 @@
       <ul>
         {% if 'user_id' not in request.session %}
         <li><a href="/login_registration">Login/Register</a></li>
+        <li><a href="/addcontentpage">Add Content</a></li>
         {% endif %}
-        <li><a href="addcontentpage">Add Content</a></li>
         {% if 'user_id' in request.session %}
         <li><a href="/logout">Logout</a></li>
         {% endif %}
       </ul>
     </div>
+
     {% if user_id in request.session %}
       <li><a href="">Logout</a></li>
     {% endif %}
+
       </ul>
     </div>
     {% for content in all_content %}
