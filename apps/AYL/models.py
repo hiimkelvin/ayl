@@ -113,7 +113,6 @@ class CommentManager(models.Manager):
             user = User.objects.get(id=userID)
             content = Content.objects.get(id=contentID)
             Comment.objects.create(user_table=user, content_table=content, comment=comments)
-            print 'added user'
         else:
             pass
 
