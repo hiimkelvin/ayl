@@ -11,18 +11,16 @@
 
     <div class="navbar">
       <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">link</a></li>
-        <li><a href="">link</a></li>
-        <li><a href="">link</a></li>
-        <li><a href="">link</a></li>
-        <li><a href="">link</a></li>
+        <li><a href="/login_registration">Login/Register</a></li>
+        <li><a href="">Add Content</a></li>
+        <li><a href="">Logout</a></li>
       </ul>
     </div>
 
-
-    <h2>Content</h2>
-    <p>Description</p>
+    {% for content in all_content %}
+    <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
+    <p>{{ content.description }}</p>
+    {% endfor %}
 
   </body>
 </html>
