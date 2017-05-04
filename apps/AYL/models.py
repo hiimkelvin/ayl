@@ -70,13 +70,34 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
+class ContentManager(models.Manager):
+    def addcontent(self, data):
+        title = data['title']
+        description = data['description']
+        document = data['document']
+        userID = data['userID']
+        errors = []
+
+        if title == '':
+            errors.append('Give your picture a title!')
+        if description == '':
+            errors.append('You need a description!')
+
+        if len(errors) == 0:
+            user = User.objects.get(id=userID)
+            newimage = Content(user_table=user, title=title, description=description, document=document)
+            newimage.save()
+        else:
+            pass
+
 class Content(models.Model):
     user_table = models.ForeignKey(User, related_name='user_content')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    document = models.FileField(upload_to='')
+    document = models.FileField(upload_to='documents/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = ContentManager()
 
 class Comment(models.Model):
     user_table = models.ForeignKey(User, related_name='user_comment')

@@ -12,6 +12,13 @@
     <div class="navbar">
       <ul>
         <li><a href="/login_registration">Login/Register</a></li>
+        <li><a href="addcontentpage">Add Content</a></li>
+        <li><a href="">Logout</a></li>
+      </ul>
+    </div>
+    <h2>Content</h2>
+    <p>Description</p>
+
         <li><a href="">Add Content</a></li>
         <li><a href="">Logout</a></li>
       </ul>
@@ -19,8 +26,7 @@
 
     {% for content in all_content %}
     <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
-    <p>{{ content.description }}</p>
+    <img height='300', width='300' src="{{ content.document.url }}">
     {% endfor %}
-
   </body>
 </html>
