@@ -16,6 +16,21 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from apps.AYL.models import User, Content, Comment, Like
+class UserAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(User, UserAdmin)
+class ContentAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Content, ContentAdmin)
+class CommentAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Comment, CommentAdmin)
+class LikeAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Like, LikeAdmin)
+
 urlpatterns = [
+    url(r'^admin/',admin.site.urls),
     url(r'^', include('apps.AYL.urls')),
 ]
