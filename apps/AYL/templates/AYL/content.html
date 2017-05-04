@@ -5,9 +5,8 @@
     <title>Contents</title>
   </head>
   <body>
-    {% for content in all_content %}
     <h2>{{ content.title }}</h2>
     <p>{{ content.description }}</p>
-    {% endfor %}
+    <img height="500" width="500" src="{{ content.document.url }}">
   </body>
 </html>

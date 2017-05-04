@@ -12,26 +12,19 @@
     <div class="navbar">
       <ul>
         <li><a href="/login_registration">Login/Register</a></li>
-        <li><a href="">Add Content</a></li>
+        <li><a href="addcontentpage">Add Content</a></li>
         <li><a href="">Logout</a></li>
       </ul>
     </div>
-<<<<<<< HEAD
     <h2>Content</h2>
     <ul>
       {% for obj in documents %}
-        <p>{{ obj.title }}</p>
-        <li><a href="{{ obj.id }}"><img width='250' height='250' src="{{ obj.document.url }}"></a></li>
+        <li>
+          <h4>{{ obj.title }}</h4>
+          <a href="content/{{ obj.id }}"><img height="200" width="200" src="{{ obj.document.url }}"></a>
+        </li>
       {% endfor %}
     </ul>
     <p>Description</p>
-=======
-
-    {% for content in all_content %}
-    <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
-    <p>{{ content.description }}</p>
-    {% endfor %}
->>>>>>> b06db6dc1177b26b65136e0eec03a358ac3e4fb9
-
   </body>
 </html>
