@@ -15,18 +15,27 @@ def addcontentpage(request):
     return render(request, "AYL/addcontent.html")
 
 def addcontent(request):
-    # try:
-    context = {
-        'title': request.POST['title'],
-        'description': request.POST['description'],
-        'document': request.FILES['document'],
-        'userID': request.session['user_id']
+    if 'user_id' not in request.session:
+        messages.add_message(request, messages.ERROR, 'You have to login to upload pictures!')
+        return redirect('/addcontentpage')
+    else:
+        try:
+            context = {
+            'title': request.POST['title'],
+            'description': request.POST['description'],
+            'document': request.FILES['document'],
+            'userID': request.session['user_id']
+            }
+            Content.objects.addcontent(context)
+            return redirect('/')
+        except:
+            messages.add_message(request, messages.ERROR, 'Upload a picture!')
+            return redirect('/addcontentpage')
+def index(request):
+    context ={
+        'all_content': Content.objects.all(),
     }
-    Content.objects.addcontent(context)
-    return redirect('/')
-    # except:
-    #     messages.add_message(request, messages.ERROR, 'Upload a picture!')
-    #     return redirect('/addcontentpage')
+    return render(request, 'AYL/index.html', context)
 
 def loginpage(request):
     return render(request, 'AYL/login.html')

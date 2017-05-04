@@ -5,8 +5,15 @@
     <title>Contents</title>
   </head>
   <body>
+<<<<<<< HEAD
     <h2>{{ content.title }}</h2>
     <p>{{ content.description }}</p>
     <img height="500" width="500" src="{{ content.document.url }}">
+=======
+    {% for content in all_content %}
+    <h2>{{ content.title }}</h2>
+    <p>{{ content.description }}</p>
+    {% endfor %}
+>>>>>>> b06db6dc1177b26b65136e0eec03a358ac3e4fb9
   </body>
 </html>
