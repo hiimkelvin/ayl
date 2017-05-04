@@ -11,16 +11,21 @@
 
     <div class="navbar">
       <ul>
+        {% if 'user_id' not in request.session %}
         <li><a href="/login_registration">Login/Register</a></li>
+        {% endif %}
         <li><a href="addcontentpage">Add Content</a></li>
-        <li><a href="">Logout</a></li>
+        {% if 'user_id' in request.session %}
+        <li><a href="/logout">Logout</a></li>
+        {% endif %}
       </ul>
     </div>
     <h2>Content</h2>
     <p>Description</p>
 
-        <li><a href="">Add Content</a></li>
+        {% if user_id in request.session %}
         <li><a href="">Logout</a></li>
+        {% endif %}
       </ul>
     </div>
 

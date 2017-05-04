@@ -4,16 +4,19 @@
     <meta charset="utf-8">
     <title>Contents</title>
   </head>
+  <a href="/">Back</a>
+  {% if 'user_id' in request.session %}
+  <a href="/logout">Logout</a></li>
+  {% endif %}
   <body>
-<<<<<<< HEAD
-    <h2>{{ content.title }}</h2>
-    <p>{{ content.description }}</p>
-    <img height="500" width="500" src="{{ content.document.url }}">
-=======
-    {% for content in all_content %}
-    <h2>{{ content.title }}</h2>
-    <p>{{ content.description }}</p>
+    {% for message in messages %}
+    <p>{{ message }}</p>
     {% endfor %}
->>>>>>> b06db6dc1177b26b65136e0eec03a358ac3e4fb9
+    <h2>{{ content.title }}</h2>
+    <img height="500" width="500" src="{{ content.document.url }}">
+    <p>{{ likes }} likes</p>
+    <a href="/like/{{ content.id }}">👍</a>
+    <p>{{ content.description }}</p>
+
   </body>
 </html>
