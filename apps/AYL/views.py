@@ -7,7 +7,6 @@ from .forms import DocumentForm
 from django.contrib import messages
 
 def index(request):
-    request.session.clear()
     context ={
         'all_content': Content.objects.all(),
     }
