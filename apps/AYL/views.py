@@ -73,6 +73,24 @@ def login(request):
 def content(request, content_id):
     context = {
         'content': Content.objects.get(id=content_id),
+        'likes': Like.objects.filter(content_table=content_id).count(),
+    }
+    return render(request, "AYL/content.html", context)
+
+def like(request, content_id):
+    try:
+        context = {
+            'contentID': content_id,
+            'userID': request.session['user_id']
+        }
+        Like.objects.like(content)
+    except:
+        messages.add_message(request, messages.ERROR, 'You must login to like this!')
+    return redirect('/content/' + content_id)
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
         'all_comments': Comment.objects.filter(content_table=content_id)
     }
     return render(request, "AYL/content.html", context)
