@@ -71,10 +71,23 @@ def login(request):
         return redirect('/')
 
 def content(request, content_id):
-    context = {
-        'content': Content.objects.get(id=content_id),
-        'likes': Like.objects.filter(content_table=content_id).count(),
-    }
+    content = Content.objects.get(id=content_id)
+    try:
+        user = User.objects.get(id=request.session['user_id'])
+        Like.objects.get(content_table=content, user_table=user)
+        context = {
+            'content': Content.objects.get(id=content_id),
+            'all_comments': Comment.objects.filter(content_table=content_id),
+            'likes': Like.objects.filter(content_table=content_id),
+            'like': True
+            }
+    except:
+        context = {
+            'content': Content.objects.get(id=content_id),
+            'all_comments': Comment.objects.filter(content_table=content_id),
+            'likes': Like.objects.filter(content_table=content_id),
+            'like': False
+            }
     return render(request, "AYL/content.html", context)
 
 def like(request, content_id):
@@ -89,15 +102,18 @@ def like(request, content_id):
     return redirect('/content/' + content_id)
 
 def logout(request):
+    request.session.clear()
     return redirect('/')
 
 def add_comments(request, content_id):
     content_num = int(content_id)
-    context = {
-        'userID': request.session['user_id'],
-        'contentID': content_id,
-        'comments': request.POST['comments'],
-    }
-    results = Comment.objects.add_comment(context)
-    # print 'hit views'
+    try:
+        context = {
+            'userID': request.session['user_id'],
+            'contentID': content_id,
+            'comments': request.POST['comments'],
+        }
+        results = Comment.objects.add_comment(context)
+    except:
+        messages.add_message(request, messages.ERROR, 'You must login to add comment.')
     return redirect('/content/' + content_id)
