@@ -26,7 +26,8 @@
     <p>{{ content.description }}</p>
 
     {% for comment in all_comments %}
-      <p>{{ comment.comment}}</p>
+      <p>{{ comment.user_table.username }} - {{ comment.created_at }}</p>
+      <p>{{ comment.comment }}</p>
     {% endfor %}
 
     <form action="/comments/{{ content.id }}" method="post">
