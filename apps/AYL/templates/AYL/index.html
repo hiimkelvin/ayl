@@ -31,5 +31,10 @@
       <a href="/content/{{ content.id }}"><img height='300', width='300' src="{{ content.document.url }}"></a>
       <p>{{ content.description }}</p>
     {% endfor %}
+
+    {% for content in top_content %}
+    <p>{{ content.id }}</p>
+    {% endfor %}
+
   </body>
 </html>
