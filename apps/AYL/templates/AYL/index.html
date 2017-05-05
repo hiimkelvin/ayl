@@ -27,9 +27,16 @@
 
     {% for content in all_content %}
       <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
-      <p>{{ content.created_at|date:"F j, Y" }}</p>
+      <p>{{ content.created_at|date:"F j, Y" }} . 👍{{ content.content_like.count }} . 💬{{ content.content_comment.count}}</p>
       <a href="/content/{{ content.id }}"><img height='300', width='300' src="{{ content.document.url }}"></a>
-      <p>{{ content.description }}</p>
+      <p>{{ content.description|truncatewords:12 }}</p>
     {% endfor %}
+
+    <h2>Most liked!</h2>
+    {% for content in top_content %}
+      <h3><a href="/content/{{ content.id }}">{{ content.title }}</a></h3>
+    {% endfor %}
+
+
   </body>
 </html>

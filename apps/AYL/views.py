@@ -5,10 +5,12 @@ from django.core.files.storage import FileSystemStorage
 from .models import User, Content, Comment, Like
 from .forms import DocumentForm
 from django.contrib import messages
+from django.db.models import Count
 
 def index(request):
     context ={
         'all_content': Content.objects.all(),
+        'top_content': Content.objects.annotate(num_likes=Count('content_like')).order_by('-num_likes')
     }
     return render(request, 'AYL/index.html', context)
 
@@ -94,7 +96,6 @@ def logout(request):
     return redirect('/')
 
 def add_comments(request, content_id):
-    content_num = int(content_id)
     try:
         context = {
             'userID': request.session['user_id'],
