@@ -17,8 +17,12 @@
 
     <h2>{{ content.title }}</h2>
     <img height="500" width="500" src="{{ content.document.url }}">
-    <p>{{ likes }} likes</p>
+    <p>{{ likes.count }} likes</p>
+    {% if like == True %}
+    <p>You liked this</p>
+    {% else %}
     <a href="/like/{{ content.id }}">👍</a>
+    {% endif %}
     <p>{{ content.description }}</p>
 
     {% for comment in all_comments %}

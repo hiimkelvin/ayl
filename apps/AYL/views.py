@@ -73,11 +73,23 @@ def login(request):
         return redirect('/')
 
 def content(request, content_id):
-    context = {
-        'content': Content.objects.get(id=content_id),
-        'all_comments': Comment.objects.filter(content_table=content_id),
-        'likes': Like.objects.filter(content_table=content_id).count(),
-    }
+    content = Content.objects.get(id=content_id)
+    try:
+        user = User.objects.get(id=request.session['user_id'])
+        Like.objects.get(content_table=content, user_table=user)
+        context = {
+            'content': Content.objects.get(id=content_id),
+            'all_comments': Comment.objects.filter(content_table=content_id),
+            'likes': Like.objects.filter(content_table=content_id),
+            'like': True
+            }
+    except:
+        context = {
+            'content': Content.objects.get(id=content_id),
+            'all_comments': Comment.objects.filter(content_table=content_id),
+            'likes': Like.objects.filter(content_table=content_id),
+            'like': False
+            }
     return render(request, "AYL/content.html", context)
 
 def like(request, content_id):
