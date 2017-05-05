@@ -8,20 +8,25 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   </head>
   <body>
-    <h1>BANNER HERE</h1>
+    <div class="banner">
+      <h1>BANNER HERE</h1>
+    </div>
 
     <div class="wrapper">
-      <ul class="navbar">
-        {% if 'user_id' not in request.session %}
-        <li><a href="/login_registration">Login/Register</a></li>
-        {% endif %}
-        <li><a href="/addcontentpage">Add Content</a></li>
-        {% if 'user_id' in request.session %}
-        <li><a href="/logout">Logout</a></li>
-        {% endif %}
-      </ul>
-      <h1>Recent Posts</h1>
       <div class="wrapper2">
+
+        <ul class="navbar">
+          {% if 'user_id' not in request.session %}
+          <li><a href="/login_registration">Login/Register</a></li>
+          {% endif %}
+          <li><a href="/addcontentpage">Add Content</a></li>
+          {% if 'user_id' in request.session %}
+          <li><a href="/logout">Logout</a></li>
+          {% endif %}
+        </ul>
+
+        <h1>Recent Posts</h1>
+
         <div class="content">
           {% for content in all_content %}
           <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
@@ -29,15 +34,17 @@
           <a href="/content/{{ content.id }}"><img src="{{ content.document.url }}"></a>
           <p>{{ content.description|truncatewords:12 }}</p>
           {% endfor %}
-      </div>
+        </div>
 
-      <div class="top_content">
-        <h2>Most liked!</h2>
-        {% for content in top_content %}
-          <h3><a href="/content/{{ content.id }}">{{ content.title }}</a></h3>
-          <a href="/content/{{ content.id }}"><img src="{{ content.document.url }}"></a>
-          <p>{{ content.created_at|date:"F j, Y" }} 👍{{ content.content_like.count }}</p>
-        {% endfor %}
+        <div class="top_content">
+          <h2>Most liked!</h2>
+          {% for content in top_content %}
+            <h3><a href="/content/{{ content.id }}">{{ content.title }}</a></h3>
+            <a href="/content/{{ content.id }}"><img src="{{ content.document.url }}"></a>
+            <p>{{ content.created_at|date:"F j, Y" }} 👍{{ content.content_like.count }}</p>
+          {% endfor %}
+        </div>
+
       </div>
     </div>
 
@@ -47,6 +54,6 @@
           <h3><a href="/content/{{ content.id }}">{{ content.title }}</a></h3>
         {% endfor %}
       </div>
-    </div>
+
   </body>
 </html>
