@@ -1,0 +1,40 @@
+*{
+   margin: 0px;
+   padding: 0px;
+   font-family: 'Open Sans', sans-serif;
+}
+
+.wrapper{
+  background-color: #eff7f0;
+  height:100vh;
+}
+
+.smallwrapper{
+  background-color: #d3ffdc;
+  border: 5px solid #eaf9ed;
+  padding: 70px 0;
+  text-align: center;
+  margin: 0 25%;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+label{
+  color: white;
+  display: block;
+  width: auto;
+  text-align: center;
+  margin: 2px;
+}
+
+h1{
+  color: #e50000;
+}
+
+button{
+  background-color: white;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.banner{
+  background-color: #6cfcaa;
+}
