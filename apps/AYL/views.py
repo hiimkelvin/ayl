@@ -82,14 +82,14 @@ def content(request, content_id):
             'all_comments': Comment.objects.filter(content_table=content_id),
             'likes': Like.objects.filter(content_table=content_id),
             'like': True
-            }
+        }
     except:
         context = {
             'content': Content.objects.get(id=content_id),
             'all_comments': Comment.objects.filter(content_table=content_id),
             'likes': Like.objects.filter(content_table=content_id),
-            'like': False
-            }
+            'like': False,
+        }
     return render(request, "AYL/content.html", context)
 
 def like(request, content_id):
@@ -114,6 +114,7 @@ def add_comments(request, content_id):
             'contentID': content_id,
             'comments': request.POST['comments'],
         }
+        print 'hello'
         results = Comment.objects.add_comment(context)
     except:
         messages.add_message(request, messages.ERROR, 'You must login to add comment.')
