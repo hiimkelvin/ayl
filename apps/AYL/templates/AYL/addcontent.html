@@ -4,34 +4,96 @@
     <meta charset="utf-8">
     <title>Add Content</title>
         {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'css/addcontent.css' %}"media="screen" title="no title"  charset="utf-8">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        {% load staticfiles %}
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/blog-post.css' %}">
+        <link rel="stylesheet" href="{% static 'css/add_content.css' %}"media="screen" title="no title"  charset="utf-8">
   </head>
   <body>
-    <a href="/">Back</a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Site Name</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                      <a href="/addcontentpage">Add Content</a>
+                    </li>
+                    <li>
+                        <a href="/login_registration">Login/Registration</a>
+                    </li>
+                    {% if 'user_id' in request.session %}
+                    <li>
+                      <a href="">Welcome, {{ request.session.user_name }}</a>
+                    </li>
+                    <li>
+                      <a href="/logout">Logout</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
-    {% if 'user_id' in request.session %}
-    <a href="/logout">Logout</a></li>
-    {% endif %}
+    <!-- Page Content -->
+    <div class="container">
 
-    <h2>Add your things below!</h2>
+        <div class="row">
 
-    {% for message in messages %}
-      {{message}}
-    {% endfor %}
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
 
-    <form action="/addcontent" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <label for="title">
-        Title: <input type="text" name="title">
-      </label>
-      <label for="document">
-        Upload an image: <input type="file" name="document" accept="image/*">
-      </label>
-      <label for="description">
-        Description: <textarea name="description" rows="4" cols="40"></textarea>
-      </label>
-      <button>Upload</button>
-    </form>
+                <!-- Blog Post -->
+
+                <!-- Title -->
+                <h1>Add your things below!</h1>
+
+                {% for message in messages %}
+                  {{message}}
+                {% endfor %}
+                <!-- Author -->
+                <p class="lead">
+                  <form action="/addcontent" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                        <p><b>Title:</b> <input type="text" name="title"></p>
+
+
+                        <p><b>Upload an image:</b> <input type="file" name="document" accept="image/*"></p>
+
+                      <p><b>Description:</b></p>
+                      <p><textarea name="description" rows="4" cols="40"></textarea></p>
+
+                      <button>Upload</button>
+                  </form>
+                </p>
+        <hr>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Created 2017!</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
   </body>
 </html>
