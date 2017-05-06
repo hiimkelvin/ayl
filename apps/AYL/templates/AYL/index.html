@@ -11,39 +11,45 @@
     <div class="banner">
       <h1>BANNER HERE</h1>
     </div>
-
     <div class="wrapper">
       <div class="wrapper2">
 
         <ul class="navbar">
+          <li><a href="/addcontentpage">Add Content</a></li>
           {% if 'user_id' not in request.session %}
           <li><a href="/login_registration">Login/Register</a></li>
           {% endif %}
-          <li><a href="/addcontentpage">Add Content</a></li>
           {% if 'user_id' in request.session %}
           <li><a href="/logout">Logout</a></li>
           {% endif %}
         </ul>
-
-        <h1>Recent Posts</h1>
-
-        <div class="content">
-          {% for content in all_content %}
-          <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
-          <p>{{ content.created_at|date:"F j, Y" }} . 👍{{ content.content_like.count }} . 💬{{ content.content_comment.count}}</p>
-          <a href="/content/{{ content.id }}"><img src="{{ content.document.url }}"></a>
-          <p>{{ content.description|truncatewords:12 }}</p>
-          {% endfor %}
+        <div class="h_holder">
+          <div class="recentposts">
+            <h1>Recent Posts</h1>
+          </div>
+          <div class="mostliked">
+            <h2>Most liked!</h2>
+          </div>
         </div>
-
-        <div class="top_content">
-          <h2>Most liked!</h2>
-          {% for content in top_content %}
+        <div class="contentholder">
+          <div class="content">
+            {% for content in all_content %}
+            <h2><a href="/content/{{ content.id }}">{{ content.title }}</a></h2>
+            <p>{{ content.created_at|date:"F j, Y" }} . 👍{{ content.content_like.count }} . 💬{{ content.content_comment.count}}</p>
+            <a href="/content/{{ content.id }}"><img src="{{ content.document.url }}"></a>
+            <p>{{ content.description|truncatewords:12 }}</p>
+            {% endfor %}
+          </div>
+          <div class="top_content">
+            {% for content in top_content %}
             <h3><a href="/content/{{ content.id }}">{{ content.title }}</a></h3>
             <a href="/content/{{ content.id }}"><img src="{{ content.document.url }}"></a>
             <p>{{ content.created_at|date:"F j, Y" }} 👍{{ content.content_like.count }}</p>
-          {% endfor %}
+            {% endfor %}
+            <div style="clear:both;"></div>
+          </div>
         </div>
+
 
       </div>
     </div>
