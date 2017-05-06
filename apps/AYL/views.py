@@ -10,7 +10,7 @@ from django.db.models import Count
 def index(request):
     context ={
         'all_content': Content.objects.all(),
-        'top_content': Content.objects.annotate(num_likes=Count('content_like')).order_by('-num_likes')
+        'top_content': Content.objects.annotate(num_likes=Count('content_like')).order_by('-num_likes')[0:5],
     }
     return render(request, 'AYL/index.html', context)
 
